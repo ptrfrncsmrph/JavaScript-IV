@@ -150,7 +150,13 @@ const cases = [
   [todd.speak(), "Hello my name is Todd, I am from Billerica"],
   [jan.speak(), "Hello my name is Jan, I am from New York"],
   [fred.speak(), "Hello my name is Fred, I am from Bedrock"],
-  [todd.standUp("#memes"), "Todd announces to #memes, @channel standy times!"]
+  [todd.standUp("#memes"), "Todd announces to #memes, @channel standy times!"],
+  [todd.debugsCode(jan, "Perl"), "Todd debugs Jan's code on Perl"],
+  [jan.favSubjects.join(", "), "Hermeneutics, Hermetics, Homotopy Type Theory"],
+  [
+    jan.sprintChallenge("Python-I"),
+    "Jan has begun sprint challenge on Python-I"
+  ]
 ]
 
 const runTests = cases => {
