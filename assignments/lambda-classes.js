@@ -73,6 +73,7 @@ class Student extends Person {
     this.previousBackground = props.previousBackground
     this.className = props.className
     this.favSubjects = props.favSubjects
+    this.grade = props.grade || 0
   }
   listSubjects() {
     return this.favSubjects
@@ -143,6 +144,17 @@ const todd = new ProjectManager({
   favInstructor: fred
 })
 
+const steve = new Student({
+  name: "Steve",
+  age: 82,
+  location: "Yonkers",
+  gender: undefined,
+  previousBackground: "Retiree",
+  className: "WEB17",
+  favSubjects: ["Homotopy Type Theory", "Physics"],
+  grade: 97
+})
+
 // Testing
 const assert = require("assert")
 
@@ -156,7 +168,9 @@ const cases = [
   [
     jan.sprintChallenge("Python-I"),
     "Jan has begun sprint challenge on Python-I"
-  ]
+  ],
+  [jan.grade, 0],
+  [steve.grade, 97]
 ]
 
 const runTests = cases => {
