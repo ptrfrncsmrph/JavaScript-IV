@@ -8,18 +8,6 @@
 //   * **Project Managers** - extensions of Instructors
 // * **IMPORTANT** - You'll need to create 2 - 3 objects for each class and test them according to their unique Attributes. For example:
 
-// ```js
-// const fred = new Instructor({
-//   name: 'Fred',
-//   location: 'Bedrock',
-//   age: 37,
-//   gender: 'male',
-//   favLanguage: 'JavaScript',
-//   specialty: 'Front-end',
-//   catchPhrase: `Don't forget the homies`
-// });
-// ```
-
 // #### Person
 
 // * First we need a Person class. This will be our `base-class`
@@ -35,7 +23,7 @@ class Person {
     this.gender = props.gender
   }
   speak() {
-    console.log(`Hello my name is ${this.name}, I am from ${this.location}`)
+    return `Hello my name is ${this.name}, I am from ${this.location}`
   }
 }
 
@@ -59,10 +47,10 @@ class Instructor extends Person {
     this.catchPhrase = props.catchPhrase
   }
   demo(subject) {
-    console.log(`Today we are learning about ${subject}`)
+    return `Today we are learning about ${subject}`
   }
   grade(student, subject) {
-    console.log(`${student.name} receives a perfect score on ${subject}`)
+    return `${student.name} receives a perfect score on ${subject}`
   }
 }
 
@@ -87,13 +75,13 @@ class Student extends Person {
     this.favSubjects = props.favSubjects
   }
   listSubjects() {
-    this.favSubjects.forEach(console.log)
+    return this.favSubjects
   }
   PRAssignments(subject) {
-    console.log(`${this.name} has submitted a PR for ${subject}`)
+    return `${this.name} has submitted a PR for ${subject}`
   }
   sprintChallenge(subject) {
-    console.log(`${this.name} has begun sprint challenge on ${subject}`)
+    return `${this.name} has begun sprint challenge on ${subject}`
   }
 }
 
@@ -101,6 +89,7 @@ class Student extends Person {
 
 // * Now that we have instructors and students, we'd be nowhere without our PM's
 // * ProjectManagers are extensions of Instructors
+
 // * ProjectManagers have the following uniqe props:
 //   * `gradClassName`: i.e. CS1
 //   * `favInstructor`: i.e. Sean
@@ -114,9 +103,19 @@ class ProjectManager extends Instructor {
     this.favInstructor = props.favInstructor
   }
   standUp(channel) {
-    console.log(`${this.name} announces to ${channel}, @channel standy times!`)
+    return `${this.name} announces to ${channel}, @channel standy times!`
   }
   debugsCode(student, subject) {
-    console.log(`${this.name} debugs ${student.name}'s code on ${subject}`)
+    return `${this.name} debugs ${student.name}'s code on ${subject}`
   }
 }
+
+const fred = new Instructor({
+  name: "Fred",
+  location: "Bedrock",
+  age: 37,
+  gender: "male",
+  favLanguage: "JavaScript",
+  specialty: "Front-end",
+  catchPhrase: `Don't forget the homies`
+})
