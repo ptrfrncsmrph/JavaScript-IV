@@ -15,12 +15,14 @@ Prototype Refactor
   * destroy() // prototype method -> returns the string: 'Object was removed from the game.'
 */
 
-function GameObject(props) {
-  this.createdAt = props.createdAt
-  this.dimensions = props.dimensions
-}
-GameObject.prototype.destroy = function() {
-  return `${this.name || "Object"} was removed from the game.`
+class GameObject {
+  constructor(attrs) {
+    this.createdAt = attrs.createdAt
+    this.dimensions = attrs.dimensions
+  }
+  destroy() {
+    return `${this.name || "Object"} was removed from the game.`
+  }
 }
 
 /*
@@ -31,14 +33,15 @@ GameObject.prototype.destroy = function() {
   * should inherit destroy() from GameObject's prototype
 */
 
-function CharacterStats(props) {
-  GameObject.call(this, props)
-  this.healthPoints = props.healthPoints
-  this.name = props.name
-}
-CharacterStats.prototype = Object.create(GameObject.prototype)
-CharacterStats.prototype.takeDamage = function() {
-  return `${this.name} took damage.`
+class CharacterStats extends GameObject {
+  constructor(attrs) {
+    super(attrs)
+    this.healthPoints = attrs.healthPoints
+    this.name = attrs.name
+  }
+  takeDamage() {
+    return `${this.name} took damage.`
+  }
 }
 
 /*
@@ -51,15 +54,16 @@ CharacterStats.prototype.takeDamage = function() {
   * should inherit takeDamage() from CharacterStats
 */
 
-function Humanoid(props) {
-  CharacterStats.call(this, props)
-  this.team = props.team
-  this.weapons = props.weapons
-  this.language = props.language
-}
-Humanoid.prototype = Object.create(CharacterStats.prototype)
-Humanoid.prototype.greet = function() {
-  return `${this.name} offers a greeting in ${this.language}.`
+class Humanoid extends CharacterStats {
+  constructor(attrs) {
+    super(attrs)
+    this.team = attrs.team
+    this.weapons = attrs.weapons
+    this.language = attrs.language
+  }
+  greet() {
+    return `${this.name} offers a greeting in ${this.language}.`
+  }
 }
 
 /*
@@ -112,75 +116,44 @@ const archer = new Humanoid({
   language: "Elvish"
 })
 
-// console.log(mage.createdAt); // Today's date
-// console.log(archer.dimensions); // { length: 1, width: 2, height: 4 }
-// console.log(swordsman.healthPoints); // 15
-// console.log(mage.name); // Bruce
-// console.log(swordsman.team); // The Round Table
-// console.log(mage.weapons); // Staff of Shamalama
-// console.log(archer.language); // Elvish
-// console.log(archer.greet()); // Lilith offers a greeting in Elvish.
-// console.log(mage.takeDamage()); // Bruce took damage.
-// console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
-
-// For testing
-const assert = require("assert")
-
-// const cases = [
-//   [mage.createdAt, "Today's date"],
-//   [archer.dimensions, "{ length: 1, width: 2, height: 4 }"],
-//   [swordsman.healthPoints, "15"],
-//   [mage.name, "Bruce"],
-//   [swordsman.team, "The Round Table"],
-//   [mage.weapons, "Staff of Shamalama"],
-//   [archer.language, "Elvish"],
-//   [archer.greet(), "Lilith offers a greeting in Elvish."],
-//   [mage.takeDamage(), "Bruce took damage."],
-//   [swordsman.destroy(), "Sir Mustachio was removed from the game."]
-// ]
-
-// // mage.takeDamage //?
-
-// const test = cases => {
-//   cases.forEach(c => {
-//     const [input, expect] = c.map(JSON.stringify)
-//     console.log({ input, expect })
-//     // assert(input === expect, `Expected: ${expect}, Received: ${input}`)
-//   })
-//   console.log("All tests passing!")
-// }
-
-// test(cases)
+console.log(mage.createdAt) // Today's date
+console.log(archer.dimensions) // { length: 1, width: 2, height: 4 }
+console.log(swordsman.healthPoints) // 15
+console.log(mage.name) // Bruce
+console.log(swordsman.team) // The Round Table
+console.log(mage.weapons) // Staff of Shamalama
+console.log(archer.language) // Elvish
+console.log(archer.greet()) // Lilith offers a greeting in Elvish.
+console.log(mage.takeDamage()) // Bruce took damage.
+console.log(swordsman.destroy()) // Sir Mustachio was removed from the game.
 
 // Stretch task:
 // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.
 // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
 // * Create two new objects, one a villain and one a hero and fight it out with methods!
 
-function Villain(props) {
-  Humanoid.call(this, props)
-}
-Villain.prototype.attack = function(power) {
-  return humanoid => {
-    if (humanoid.healthPoints > power) {
-      humanoid.healthPoints -= power
-    } else {
-      humanoid.healthPoints = 0
-      console.log(humanoid.destroy())
+class Villain extends Humanoid {
+  attack(power) {
+    return humanoid => {
+      if (humanoid.healthPoints > power) {
+        humanoid.healthPoints -= power
+      } else {
+        humanoid.healthPoints = 0
+        console.log(humanoid.destroy())
+      }
     }
   }
 }
 
-function Hero(props) {
-  Humanoid.call(this, props)
-}
-Hero.prototype.attack = function(power) {
-  return humanoid => {
-    if (humanoid.healthPoints > power) {
-      humanoid.healthPoints -= power
-    } else {
-      humanoid.healthPoints = 0
-      console.log(humanoid.destroy())
+class Hero extends Humanoid {
+  attack(power) {
+    return humanoid => {
+      if (humanoid.healthPoints > power) {
+        humanoid.healthPoints -= power
+      } else {
+        humanoid.healthPoints = 0
+        console.log(humanoid.destroy())
+      }
     }
   }
 }
