@@ -99,6 +99,7 @@ class Student extends Person {
 
 class ProjectManager extends Instructor {
   constructor(props) {
+    super(props)
     this.gradClassName = props.gradClassName
     this.favInstructor = props.favInstructor
   }
@@ -119,3 +120,44 @@ const fred = new Instructor({
   specialty: "Front-end",
   catchPhrase: `Don't forget the homies`
 })
+
+const jan = new Student({
+  name: "Jan",
+  age: 32,
+  location: "New York",
+  gender: "N/A",
+  previousBackground: "Sculptor",
+  className: "WEB17",
+  favSubjects: ["Hermeneutics", "Hermetics", "Homotopy Type Theory"]
+})
+
+const todd = new ProjectManager({
+  name: "Todd",
+  location: "Billerica",
+  age: 47,
+  gender: "male",
+  favLanguage: "Agda",
+  specialty: "Front-end",
+  catchPhrase: "Forgettabouddit",
+  gradClassName: "CS-1",
+  favInstructor: fred
+})
+
+// Testing
+const assert = require("assert")
+
+const cases = [
+  [todd.speak(), "Hello my name is Todd, I am from Billerica"],
+  [jan.speak(), "Hello my name is Jan, I am from New York"],
+  [fred.speak(), "Hello my name is Fred, I am from Bedrock"],
+  [todd.standUp("#memes"), "Todd announces to #memes, @channel standy times!"]
+]
+
+const runTests = cases => {
+  cases.forEach(([c, expect]) => {
+    assert(c === expect, `Expected: ${expect}, received: ${c}`)
+  })
+  console.log("All tests passing!")
+}
+
+runTests(cases)
