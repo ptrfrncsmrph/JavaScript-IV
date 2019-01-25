@@ -39,6 +39,9 @@ class Person {
 //   * `demo` receives a `subject` string as an argument and logs out the phrase 'Today we are learning about {subject}' where subject is the param passed in.
 //   * `grade` receives a `student` object and a `subject` string as arguments and logs out '{student.name} receives a perfect score on {subject}'
 
+const randInRange = (min, max) => Math.round(Math.random() * (max - min) + min)
+const clamp = (min, max) => num => (num < min ? min : num > max ? max : num)
+
 class Instructor extends Person {
   constructor(props) {
     super(props)
@@ -51,6 +54,14 @@ class Instructor extends Person {
   }
   grade(student, subject) {
     return `${student.name} receives a perfect score on ${subject}`
+  }
+  setGrade(student, factor) {
+    const change = randInRange(-factor, factor)
+    const oldGrade = student.grade
+    student.grade = clamp(0, 100)(oldGrade + change)
+    return `${student.name}'s grade has been changed from ${oldGrade} to ${
+      student.grade
+    }`
   }
 }
 
@@ -181,3 +192,5 @@ const runTests = cases => {
 }
 
 runTests(cases)
+
+todd.setGrade(steve, 30)
